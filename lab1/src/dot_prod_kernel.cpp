@@ -3,6 +3,7 @@
 extern "C" {
 
 void dot_prod_kernel(const float *a, const float *b, float *c, const int num_elems) {
+  /********  you can change AXI bus width  **********/
 #pragma HLS interface m_axi port = a offset = slave bundle = gmem
 #pragma HLS interface m_axi port = b offset = slave bundle = gmem
 #pragma HLS interface m_axi port = c offset = slave bundle = gmem
