@@ -19,12 +19,12 @@ void load(hls::stream<block_t> & fifo_a, const block_t *a_in,
 }
 
 
-void store(hls::stream<block_t> & fifo_c, block_t *c) {
+void store(hls::stream<block_t> & fifo_c, block_t *c_out) {
 #pragma HLS inline off
     for (int i = 0; i < BLOCK_SIZE; i++) {
 #pragma HLS pipeline
 	block_t c = fifo_c.read();
-	c[i] = c;
+	c_out[i] = c;
     }
 }
 
