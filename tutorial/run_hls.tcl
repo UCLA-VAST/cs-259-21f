@@ -11,6 +11,7 @@ add_files vadd_baseline.cpp
 # add_files vadd_lcs_step1.cpp
 # add_files vadd_mem_step2.cpp
 # add_files vadd_cmp_step3.cpp
+# add_files vadd_doublebuffer.cpp
 # add_files vadd_dataflow.cpp
 
 # Solution1 *************************
