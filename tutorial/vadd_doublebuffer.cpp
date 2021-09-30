@@ -17,9 +17,11 @@ void load(const bool enable,
 #pragma HLS inline off
     if (enable) {
         for (int i = 0; i < BLOCK_SIZE; i++) {
+#pragma HLS pipeline II=1
             a_buf[i] = a_in[i_base + i];
         }
         for (int i = 0; i < BLOCK_SIZE; i++) {
+#pragma HLS pipeline II=1
             b_buf[i] = b_in[i_base + i];
         }
     }
@@ -32,6 +34,7 @@ void store(const bool enable,
 #pragma HLS inline off
     if (enable) {
         for (int i = 0; i < BLOCK_SIZE; i++) {
+#pragma HLS pipeline II=1
             c[i_base + i] = c_buf[i];
         }
     }
@@ -42,36 +45,21 @@ void compute(const bool enable,
              const block_t b_buf[BLOCK_SIZE],
              block_t c_buf[BLOCK_SIZE]) {
 #pragma HLS inline off
-    int a_buf_normal[DATA_SIZE_IN_A_BUFFER], b_buf_normal[DATA_SIZE_IN_A_BUFFER];
-#pragma HLS array_partition variable=a_buf_normal complete
-#pragma HLS array_partition variable=b_buf_normal complete
-    int c_buf_normal[DATA_SIZE_IN_A_BUFFER];
-#pragma HLS array_partition variable=c_buf_normal complete
-    
     if (enable) {
-        copy_a_buf: for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int i = 0; i < BLOCK_SIZE; i++) {
+#pragma HLS pipeline II=1
+            block_t a_u512 = a_buf[i];
+            block_t b_u512 = b_buf[i];
+            block_t c_u512;
             for (int j = 0; j < 16; j++) {
-                ap_int<32> val = a_buf[i](32 * (j + 1) - 1, 32 * j);
-                a_buf_normal[i * 16 + j] = (int) val;
+                ap_int<32> val_a = a_u512(32 * (j + 1) - 1, 32 * j);
+                ap_int<32> val_b = b_u512(32 * (j + 1) - 1, 32 * j);
+                int a = (int) val_a;
+                int b = (int) val_b;
+		int c = a + b;
+                c_u512(32 * (j + 1) - 1, 32 * j) = (ap_int<32>) c;
             }
-        }
-        
-        copy_b_buf: for (int i = 0; i < BLOCK_SIZE; i++) {
-            for (int j = 0; j < 16; j++) {
-                ap_int<32> val = b_buf[i](32 * (j + 1) - 1, 32 * j);
-                b_buf_normal[i * 16 + j] = (int) val;
-            }
-        }
-        
-        calc_add: for (int i = 0; i < DATA_SIZE_IN_A_BUFFER; i++) {
-#pragma HLS unroll factor=2
-            c_buf_normal[i] = a_buf_normal[i] + b_buf_normal[i];
-        }
-        
-        copy_c_buf: for (int i = 0; i < BLOCK_SIZE; i++) {
-            for (int j = 0; j < 16; j++) {
-                c_buf[i](32 * (j + 1) - 1, 32 * j) = (ap_int<32>) c_buf_normal[i * 16 + j];
-            }
+            c_buf[i] = c_u512;
         }
     }
 }
