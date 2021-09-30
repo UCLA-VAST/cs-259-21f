@@ -1,8 +1,7 @@
-
 #define DATA_SIZE 256
 
 extern "C" {
-void vadd(int *c, const int *a, const int *b) {
+void vadd_kernel(int *c, const int *a, const int *b) {
 #pragma HLS interface m_axi port = a offset = slave bundle = gmem
 #pragma HLS interface m_axi port = b offset = slave bundle = gmem
 #pragma HLS interface m_axi port = c offset = slave bundle = gmem
