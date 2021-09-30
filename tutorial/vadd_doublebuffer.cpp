@@ -96,13 +96,13 @@ void vadd(block_t *c, const block_t *a, const block_t *b) {
     
     for (int i = 0; i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER + 2; ++i) {
         if (i % 2 == 0) {
-            load(i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER, i, a_buf_0, a, b_buf_0, b);
+            load(i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER, i * DATA_SIZE_IN_A_BUFFER, a_buf_0, a, b_buf_0, b);
             compute((i > 0) && (i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER + 1), a_buf_1, b_buf_1, c_buf_1);
-            store(i > 1, i, c_buf_0, c);
+            store(i > 1, (i - 2) * DATA_SIZE_IN_A_BUFFER, c_buf_0, c);
         } else {
-            load(i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER, i, a_buf_1, a, b_buf_1, b);
+            load(i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER, i * DATA_SIZE_IN_A_BUFFER, a_buf_1, a, b_buf_1, b);
             compute((i > 0) && (i < DATA_SIZE/DATA_SIZE_IN_A_BUFFER + 1), a_buf_0, b_buf_0, c_buf_0);
-            store(i > 1, i, c_buf_1, c);
+            store(i > 1, (i - 2) * DATA_SIZE_IN_A_BUFFER, c_buf_1, c);
         }
     }
 }
