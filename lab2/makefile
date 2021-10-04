@@ -23,7 +23,7 @@ cnn.$(TARGET).$(DSA).xo: ./xilinx.cpp
 	$(VP) $(CLFLAGS) -c -k CnnKernel -I'$(<D)' -o'$@' '$<'
 
 cnn.$(TARGET).$(DSA).xclbin: cnn.$(TARGET).$(DSA).xo
-	$(VP) $(CLFLAGS) -l $(LDCLFLAGS) --nk CnnKernel:1 -o'$@' $(+)
+	$(VP) $(CLFLAGS) -l $(LDCLFLAGS) --connectivity.nk CnnKernel:1 -o'$@' $(+)
 
 emconfig:emconfig.json
 
