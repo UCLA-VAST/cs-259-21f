@@ -38,7 +38,7 @@ cnn: $(SRCS)
 	$(CXX) $(CXXFLAGS) -o $@ $(filter %.cpp %.a %.o, $^) $(LDFLAGS)
 
 cleanall:
-	-$(RMDIR) ./cnn *.xclbin *.xclbin.* *.xo *.xo.* *.log _x 
+	$(RMDIR) ./cnn *.xclbin *.xclbin.* *.xo *.xo.* *.log _x 
 
 CXXFLAGS = -std=c++11 -O3 -fopenmp -fno-loop-interchange
 
