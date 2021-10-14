@@ -37,6 +37,9 @@ dontrunme: cnn $(OPENCL_SOURCE) cnn.$(TARGET).$(DSA).xclbin
 cnn: $(SRCS)
 	$(CXX) $(CXXFLAGS) -o $@ $(filter %.cpp %.a %.o, $^) $(LDFLAGS)
 
+cleanall:
+	-$(RMDIR) cnn *.xclbin *.xclbin.* *.xo *.xo.* *.log _x 
+
 CXXFLAGS = -std=c++11 -O3 -fopenmp -fno-loop-interchange
 
 LDFLAGS += -lOpenCL
