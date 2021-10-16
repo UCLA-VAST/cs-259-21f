@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     float gflops = float(kNum) * kNum * kImSize * kImSize * kKernel * kKernel * 2
                    / (run_time_us * 1e3);
     clog << "Time: " << run_time_us * 1e-6 << " s\n";
-    clog << "Perf: " << gflops << " GFlops\n";
+    clog << "Perf: " << gflops << " GFlops (don't belive if you sw emu)\n";
   } else {
     CnnKernel(input, weight, bias, output);
   }
