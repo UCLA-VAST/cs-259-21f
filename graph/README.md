@@ -4,8 +4,7 @@
 cd bfs # or gnn
 mkdir build
 cd build
-cmake .. -DPLATFORM=$XCL_PLATFORM
+cmake ..
 make swsim
 make hls
-make hwsim
 ```
