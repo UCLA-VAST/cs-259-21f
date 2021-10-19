@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(gnn)
 
 set(PLATFORM
-    xilinx_u250_xdma_201830_2
+    xilinx_aws-vu9p-f1_shell-v04261818_201920_2
     CACHE STRING "Target FPGA platform")
 
 find_package(TAPA REQUIRED)
