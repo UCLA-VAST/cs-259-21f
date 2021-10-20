@@ -16,6 +16,13 @@ void dot_prod_kernel(const float *a, const float *b, float *c, const int num_ele
   /***************************
    * your code goes here ... *
    ***************************/
+  
+  //an inefficient design
+  *c = 0.0;
+  for (int i = 0; i < num_elems; ++i) {
+#pragma HLS pipeline II=1
+    *c += a[i] * b[i];
+  }
 }
 
 }  // extern "C"
